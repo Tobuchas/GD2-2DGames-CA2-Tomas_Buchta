@@ -3,6 +3,7 @@ import GraphicalUI from "../engine/graphicalUI.js";
 import GameObject from "../engine/gameObject.js"
 import Player from "./player.js"
 import Checkpoint from "./checkpoint.js"
+import Button from './Button.js';
 class PlayerUI extends GameObject
 {
     constructor(x, y)
@@ -10,7 +11,7 @@ class PlayerUI extends GameObject
         super(x,y);
         this.ui = new UI('Lives: 3 Score: 0', 10,10);
         this.addComponent(this.ui);
-       
+       // this.addGameObject(new Button(110,10,100,40,'lightGrey', "Pause"));
     }
     addGameObject(gameObject, x, y)
     {

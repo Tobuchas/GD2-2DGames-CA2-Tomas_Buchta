@@ -23,6 +23,10 @@ class Game {
     window.addEventListener('resize', () => this.resizeCanvas());
     // Instantiate a new camera without a target and with dimensions equal to the canvas size.
     this.camera = new Camera(null, this.canvas.width, this.canvas.height);
+    
+    this.pause=false;
+    
+    this.stopped=false;
   }
 
   // This method resizes the canvas to fill the window, with a small margin.
@@ -44,15 +48,28 @@ class Game {
     // Update the last frame time.
     this.lastFrameTime = currentFrameTime;
 
-    // Update all game objects and the camera.
-    this.update();
-    this.camera.update();
+    if(!this.pause && !this.stopped)
+    {
+        // Update all game objects and the camera.
+        this.update();
+        this.camera.update();
+    }
     // Draw the game objects on the canvas.
     this.draw();
 
     // Request the next animation frame, which will call this method again.
     requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+    
+    
+
   }
+  
+  // Pausing the game wow
+    pauseGame()
+    {
+       this.pause = !this.pause;
+    }
+
 
   // This method updates all the game objects.
   update() {
@@ -113,6 +130,13 @@ class Game {
 
     // Restart the game.
     this.start();
+  }
+  
+  delAll(){
+      for (const gameObject of this.gameObjects)
+      {
+          removeGameObject(gameObject);
+      }
   }
 }
 

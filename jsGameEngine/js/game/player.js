@@ -20,7 +20,7 @@ class Player extends GameObject
     {
         super(x, y);
        // this.addComponent(new Renderer('red', w, h, Images.player));
-        this.addComponent(new Physics({x:0, y:0}, {x:0, y:0}) );
+        this.addComponent(new Physics({x:0, y:0}, {x:0, y:0}, { x: 0, y: 0 }) );
         this.addComponent(new Input());
         this.animator = new Animator('red',w,h);
         this.addComponent(this.animator);
@@ -57,6 +57,10 @@ class Player extends GameObject
         const physics = this.getComponent(Physics);
         const input = this.getComponent(Input);
         const renderer = this.getComponent(Renderer);
+        
+        var moveCheck = false;
+        physics.velocity.x = 0;
+        physics.velocity.y = 0;
         if(input.isKeyDown("ArrowRight"))
         {
             
@@ -64,16 +68,32 @@ class Player extends GameObject
             this.direction = -1;
             console.log("in");
             this.animator.setAnimation("run");
+            moveCheck=true;
         }
-        else if(input.isKeyDown("ArrowLeft"))
+        if(input.isKeyDown("ArrowLeft"))
         {
             physics.velocity.x = -this.speed;
             this.direction = 1;
             this.animator.setAnimation("run");
+            moveCheck=true;
         }
-        else
+        if(input.isKeyDown("ArrowUp"))
         {
-            physics.velocity.x = 0;
+            
+            physics.velocity.y = -this.speed;
+            this.animator.setAnimation("run");
+            moveCheck=true;
+        }
+        if(input.isKeyDown("ArrowDown"))
+        {
+            
+            physics.velocity.y = this.speed;
+            this.animator.setAnimation("run");
+            moveCheck=true;
+        }
+        if (moveCheck!==true)
+        {
+            
             this.animator.setAnimation("idle");
         }
         
@@ -91,10 +111,10 @@ class Player extends GameObject
                 setTimeout(()=>{this.canFire = true;}, 500);
             }
         }
-        if(input.isKeyDown("ArrowUp") && this.isOnPlatform)
-        {
-            this.startJump();
-        }
+        //if(input.isKeyDown("ArrowUp") && this.isOnPlatform)
+        //{
+        //    this.startJump();
+        //}
        
         if(this.isJumping)
         {
@@ -196,6 +216,19 @@ class Player extends GameObject
         if(this.jumpTimer <=0 || this.getComponent(Physics).velocity.y > 0)
         {
             this.isJumping = false;
+        }
+    }
+    
+    hit()
+    {
+        this.lives--;
+        this.healthBar.currentValue = this.lives;
+        if(this.lives === 0)
+        {
+             //END GAME
+             this.game.stopped=true;
+             this.game.delAll();
+             this.game.welcomeScreen.start();
         }
     }
 }

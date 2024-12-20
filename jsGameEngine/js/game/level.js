@@ -8,11 +8,16 @@ import Checkpoint from './checkpoint.js';
 import Enemy from './enemy.js';
 import PlayerUI from './PlayerUI.js';
 import HealthBar from './healthBar.js'
+import Button from './Button.js';
+
 class Level extends Game
 {
-    constructor(canvasId)
+    constructor(canvasId, welcomeScreen)
     {
         super(canvasId);
+        
+        this.welcomeScreen=welcomeScreen;
+        
         let healthBar = new HealthBar(this.canvas.width-150, 10, 140, 10);
         
         const player = new Player(10, this.canvas.height - 100,50, 50, healthBar);
@@ -24,7 +29,9 @@ class Level extends Game
         const platforms = [
                     new Platform(0, this.canvas.height-40, 200, 20),
                     new Platform(300, this.canvas.height-40, 200, 20),
-                    new Platform(600, this.canvas.height-80, 200, 60)
+                    new Platform(600, this.canvas.height-80, 200, 60),
+                    new Platform(1000, this.canvas.height-80, 200, 80)
+                    
         ];
         
         for(const platform of platforms)
@@ -63,6 +70,9 @@ class Level extends Game
         this.addGameObject(ui);
         ui.addGameObject(healthBar, this.canvas.width-200, 10);
         this.addGameObject(new Checkpoint(450, this.canvas.height-100, 20,40, 'yellow'));
+        
+        this.addGameObject(new Button(this.canvas.width-110,10,100,40,'lightGrey', "Pause"));  
+        
     }
 }
 export default Level

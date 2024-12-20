@@ -4,12 +4,15 @@ import Physics from '../engine/physics.js';
 import {Images} from '../engine/resources.js';
 
 
+import ProjectileEnemy from './projectileEnemy.js';
 import Player from './player.js';
 import Platform from './platform.js';
 import HealthBar from './healthBar.js';
 
 class Enemy extends GameObject
 {
+    
+    
     constructor(x, y)
     {
         super(x,y);
@@ -20,6 +23,8 @@ class Enemy extends GameObject
         this.moveRight = true;
         this.healthBar = null;
         this.lives = 3;
+        this.canFire=false;
+        this.timer=300;
     }
     setHealthBar(hb)
     {
@@ -80,10 +85,32 @@ class Enemy extends GameObject
         }
         
         const player = this.game.gameObjects.find((obj)=> obj instanceof Player);
+        
+        this.timer--;
+        if (this.timer===0)
+        {
+            this.canFire=true;
+            this.timer=300;
+        }
+        
+        if(this.canFire)
+        {
+            let projectile = new ProjectileEnemy(this.x + (this.getComponent(Renderer).width/2) , 
+            this.y + this.getComponent(Renderer).height/2, 20,20,Images.projectile1, "PlayerProjectile",
+            this.direction*-1);
+            this.game.addGameObject(projectile);
+            this.canFire = false;
+
+            //setTimeout(()=>{this.canFire = true;}, 500);
+        }
+        
+        
         if(physics.isColliding(player.getComponent(Physics)))
         {
             player.collidedWithEnemy();
         }
+        
+        
         super.update(deltaTime);
         this.healthBar.x = this.x;
         this.healthBar.y = this.y-15;
