@@ -20,7 +20,7 @@ class Level extends Game
         
         this.welcomeScreen=welcomeScreen;
         
-        let healthBar = new HealthBar(this.canvas.width-150, 10, 140, 10);
+        let healthBar = new HealthBar(this.canvas.width-500, 10, 140, 10);
         
         const player = new Player(600, this.canvas.height - 100,50, 50, healthBar);
         
@@ -29,10 +29,8 @@ class Level extends Game
         this.addGameObject(player);
         
         const platforms = [
-                    new Platform(0, this.canvas.height-1000, this.canvas.width/3, 2000),
-                    new Platform(300, this.canvas.height-40, 200, 20),
-                    new Platform(600, this.canvas.height-80, 200, 60),
-                    new Platform(this.canvas.width-this.canvas.width/3, this.canvas.height-1000, this.canvas.width/3, 2000)
+                    new Platform(0, this.canvas.height-1000, this.canvas.width/3-150, 2000),
+                    new Platform(this.canvas.width-this.canvas.width/3+150, this.canvas.height-1000, this.canvas.width/3, 2000)
                     
         ];
         
@@ -41,37 +39,15 @@ class Level extends Game
             this.addGameObject(platform);
         }
         
-        const Collectibles = [
-            new Collectible(375,this.canvas.height-100),
-            new Collectible(475,this.canvas.height-100),
-           
-        ];
         
-        for(const coll of Collectibles)
-        {
-            this.addGameObject(coll);
-        }
         
-        const enemies = [
-            new Enemy(300, 100),
-            new Enemy(700, 100)
-            
-        ];
-        
-        for(let enemy of enemies)
-        {
-            console.log(enemy);
-            let hb = new HealthBar(enemy.x, enemy.y-15,enemy.getComponent(Renderer).width, 10 );
-            enemy.setHealthBar(hb);
-            this.addGameObject(hb);
-            this.addGameObject(enemy);
-        }
         
         const spawners = [
+            new EnemySpawner((this.canvas.width/3-150),10,10),
             new EnemySpawner((this.canvas.width/3)+(this.canvas.width/(3*5)),10,10),
             new EnemySpawner((this.canvas.width/3+2*this.canvas.width/(3*5)),10,10),
             new EnemySpawner((this.canvas.width/3+3*this.canvas.width/(3*5)),10,10),
-            new EnemySpawner((this.canvas.width/3+4*this.canvas.width/(3*5)),10,10)
+            new EnemySpawner((this.canvas.width/3+4*this.canvas.width/(3*5)+150),10,10)
         ];
         
         for(const spawn of spawners)
@@ -84,7 +60,7 @@ class Level extends Game
      
         this.addGameObject(ui);
         ui.addGameObject(healthBar, this.canvas.width-200, 10);
-        this.addGameObject(new Checkpoint(450, this.canvas.height-100, 20,40, 'yellow'));
+//        this.addGameObject(new Checkpoint(450, this.canvas.height-100, 20,40, 'yellow'));
         
         this.addGameObject(new Button(this.canvas.width-110,10,100,40,'lightGrey', "Pause"));  
         

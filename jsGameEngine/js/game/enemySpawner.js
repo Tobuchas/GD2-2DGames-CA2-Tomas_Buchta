@@ -14,7 +14,8 @@ class EnemySpawner extends GameObject
     {
         super(x,y);
         this.addComponent(new Renderer(color, w, h));
-        this.timer=1000;
+        this.cooldown=3000;
+        this.timer=300;
     }
     update(deltaTime)
     {
@@ -26,7 +27,7 @@ class EnemySpawner extends GameObject
             enemy.setHealthBar(hb);
             this.game.addGameObject(hb);
             this.game.addGameObject(enemy);
-            this.timer=1000;
+            this.timer=this.cooldown;
         }
         
         

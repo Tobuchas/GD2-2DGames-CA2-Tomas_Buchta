@@ -123,7 +123,7 @@ class Player extends GameObject
                 input.keys["Space"]=false;
                 this.canFire = false;
                 
-                setTimeout(()=>{this.canFire = true;}, 500);
+                setTimeout(()=>{this.canFire = true;}, 300);
             }
         }
         
@@ -178,13 +178,13 @@ class Player extends GameObject
             this.y = this.game.canvas.height-50;
         }
         
-        if(this.x > this.game.canvas.width*(2/3)-40)
+        if(this.x > this.game.canvas.width*(2/3)+110)
         {
-            this.x = this.game.canvas.width*(2/3)-40;
+            this.x = this.game.canvas.width*(2/3)+110;
         }
-        if(this.x < this.game.canvas.width/3-10)
+        if(this.x < this.game.canvas.width/3-160)
         {
-            this.x = this.game.canvas.width/3-10;
+            this.x = this.game.canvas.width/3-160;
         }
         
         

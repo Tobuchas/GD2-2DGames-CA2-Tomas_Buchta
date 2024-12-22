@@ -20,7 +20,7 @@ class Enemy extends GameObject
         this.addComponent(new Renderer('green',50,50, Images.enemy));
         this.addComponent(new Physics({x:50, y:0},{x:0, y:0}));
         this.movementDistance = 0;
-        this.movementLimit = 100;
+        this.movementLimit = 200;
         this.moveRight = true;
         this.healthBar = null;
         this.lives = 3;
@@ -90,14 +90,17 @@ class Enemy extends GameObject
             this.y = this.game.canvas.height-50;
         }
         
-        if(this.x > this.game.canvas.width*(2/3)-40)
+       
+        
+        if(this.x > this.game.canvas.width*(2/3)+110)
         {
-            this.x = this.game.canvas.width*(2/3)-40;
+            this.x = this.game.canvas.width*(2/3)+110;
         }
-        if(this.x < this.game.canvas.width/3-10)
+        if(this.x < this.game.canvas.width/3-160)
         {
-            this.x = this.game.canvas.width/3-10;
+            this.x = this.game.canvas.width/3-160;
         }
+        
         
         const player = this.game.gameObjects.find((obj)=> obj instanceof Player);
         

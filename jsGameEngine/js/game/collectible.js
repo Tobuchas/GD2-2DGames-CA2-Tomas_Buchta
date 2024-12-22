@@ -2,6 +2,7 @@ import GameObject from "../engine/gameobject.js";
 import Renderer from "../engine/renderer.js";
 import Physics from "../engine/physics.js";
 import {Images} from "../engine/resources.js"
+import Game from '../engine/game.js';
 
 class Collectible extends GameObject
 {
@@ -9,7 +10,7 @@ class Collectible extends GameObject
     {
         super(x, y);
         this.addComponent(new Renderer("yellow",30,30, Images.collectible));
-        this.addComponent(new Physics({x:0, y:0},{x:0, y:0},{x:0, y:0}));
+        this.addComponent(new Physics({x:0, y:0},{x:0, y:100},{x:0, y:0}));
         
         this.tag = "star";
         
@@ -26,20 +27,11 @@ class Collectible extends GameObject
     {
         let physics = this.getComponent(Physics);
         let renderer = this.getComponent(Renderer);
-        if(this.vDirection===1)
+        
+        
+        if(this.y>this.game.canvas.height)
         {
-            physics.velocity.y = -50;
-        }
-        else
-        {
-            physics.velocity.y = 50;
-        }
-        this.timeFloating -= deltaTime;
-        if(this.timeFloating < 0)
-        {
-            this.timeFloating = this.floatTime;
-            this.vDirection *=-1;
-            physics.velocity.y=0;
+            this.game.removeGameObject(this);
         }
         
         renderer.width += this.hDirection;
