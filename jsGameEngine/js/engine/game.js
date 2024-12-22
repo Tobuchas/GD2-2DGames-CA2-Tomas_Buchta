@@ -135,7 +135,8 @@ class Game {
   delAll(){
       for (const gameObject of this.gameObjects)
       {
-          removeGameObject(gameObject);
+          if(gameObject!==WelcomeScreen)
+            this.removeGameObject(gameObject);
       }
   }
 }

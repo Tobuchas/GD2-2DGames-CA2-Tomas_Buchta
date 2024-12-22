@@ -23,7 +23,7 @@ class Camera {
   // The update method adjusts the camera's position to center on the target object. It's called typically in the game's update loop.
   update() {
     // The x-coordinate of the camera is set to the target's x-coordinate, plus half of the target's width (which centers the camera on the target), and then minus half of the camera's width (which adjusts for the camera's size).
-    this.x = this.target.x + this.target.getComponent(Renderer).width / 2 - this.width / 2;
+   // this.x = this.target.x + this.target.getComponent(Renderer).width / 2 - this.width / 2;
 
     if(this.confiner !==null && this.x < this.confiner.x )
     {
@@ -31,7 +31,7 @@ class Camera {
     }
     if(this.confiner !==null &&this.x + this.width>= this.confiner.x + this.confiner.width)
     {
-        this.x =this.confiner.width - this.width;
+        this.x = this.confiner.x;
     }
    
     // The y-coordinate of the camera is set in the same way, but with the target's and camera's heights instead of their widths.

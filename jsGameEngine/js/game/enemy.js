@@ -4,6 +4,7 @@ import Physics from '../engine/physics.js';
 import {Images} from '../engine/resources.js';
 
 
+import Collectible from './collectible.js';
 import ProjectileEnemy from './projectileEnemy.js';
 import Player from './player.js';
 import Platform from './platform.js';
@@ -69,19 +70,33 @@ class Enemy extends GameObject
             }
         }
         
-        this.isOnPlatform = false;
-        const platforms = this.game.gameObjects.filter((obj)=> obj instanceof Platform);
-        for(const platform of platforms)
-        {
-           
-            if(physics.isColliding(platform.getComponent(Physics)))
-            {
-                physics.velocity.y = 0;
-                physics.acceleration.y = 0;
-                this.y = platform.y - this.getComponent(Renderer).height;
-                this.isOnPlatform = true;
+//        this.isOnPlatform = false;
+//        const platforms = this.game.gameObjects.filter((obj)=> obj instanceof Platform);
+//        for(const platform of platforms)
+//        {
+//           
+//            if(physics.isColliding(platform.getComponent(Physics)))
+//            {
+//                physics.velocity.y = 0;
+//                physics.acceleration.y = 0;
+//                this.y = platform.y - this.getComponent(Renderer).height;
+//                this.isOnPlatform = true;
+//
+//            }
+//        }
 
-            }
+        if(this.y > this.game.canvas.height-50)
+        {
+            this.y = this.game.canvas.height-50;
+        }
+        
+        if(this.x > this.game.canvas.width*(2/3)-40)
+        {
+            this.x = this.game.canvas.width*(2/3)-40;
+        }
+        if(this.x < this.game.canvas.width/3-10)
+        {
+            this.x = this.game.canvas.width/3-10;
         }
         
         const player = this.game.gameObjects.find((obj)=> obj instanceof Player);
@@ -123,6 +138,9 @@ class Enemy extends GameObject
         this.healthBar.currentValue = this.lives;
         if(this.lives === 0)
         {
+            let collectible = new Collectible(this.x + (this.getComponent(Renderer).width/2) , 
+            this.y + this.getComponent(Renderer).height/2);
+            this.game.addGameObject(collectible);
              this.game.removeGameObject(this.healthBar);
             this.game.removeGameObject(this);
         }

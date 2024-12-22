@@ -9,6 +9,8 @@ import Enemy from './enemy.js';
 import PlayerUI from './PlayerUI.js';
 import HealthBar from './healthBar.js'
 import Button from './Button.js';
+import EnemySpawner from './enemySpawner.js';
+
 
 class Level extends Game
 {
@@ -20,17 +22,17 @@ class Level extends Game
         
         let healthBar = new HealthBar(this.canvas.width-150, 10, 140, 10);
         
-        const player = new Player(10, this.canvas.height - 100,50, 50, healthBar);
+        const player = new Player(600, this.canvas.height - 100,50, 50, healthBar);
         
         this.camera.confiner = new Confiner(0,0,2000,this.canvas.height);
         this.camera.target = player;
         this.addGameObject(player);
         
         const platforms = [
-                    new Platform(0, this.canvas.height-40, 200, 20),
+                    new Platform(0, this.canvas.height-1000, this.canvas.width/3, 2000),
                     new Platform(300, this.canvas.height-40, 200, 20),
                     new Platform(600, this.canvas.height-80, 200, 60),
-                    new Platform(1000, this.canvas.height-80, 200, 80)
+                    new Platform(this.canvas.width-this.canvas.width/3, this.canvas.height-1000, this.canvas.width/3, 2000)
                     
         ];
         
@@ -64,6 +66,19 @@ class Level extends Game
             this.addGameObject(hb);
             this.addGameObject(enemy);
         }
+        
+        const spawners = [
+            new EnemySpawner((this.canvas.width/3)+(this.canvas.width/(3*5)),10,10),
+            new EnemySpawner((this.canvas.width/3+2*this.canvas.width/(3*5)),10,10),
+            new EnemySpawner((this.canvas.width/3+3*this.canvas.width/(3*5)),10,10),
+            new EnemySpawner((this.canvas.width/3+4*this.canvas.width/(3*5)),10,10)
+        ];
+        
+        for(const spawn of spawners)
+        {
+            this.addGameObject(spawn);
+        }
+        
         let ui = new PlayerUI(10,10);
         
      

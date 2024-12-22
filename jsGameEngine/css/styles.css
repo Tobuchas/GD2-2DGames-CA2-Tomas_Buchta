@@ -5,8 +5,16 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    
     background-color: skyblue; /* Red background color */
 }
+/*
+ Add border to the canvas element 
+canvas {
+    border: 1px solid #fff;  1 pixel solid white border 
+    //width: 
+    //height:90vh;
+}*/
 
 /* Add border to the canvas element */
 canvas {

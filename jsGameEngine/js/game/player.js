@@ -13,6 +13,8 @@ import Projectile from './projectile.js'
 import HealthBar from './healthBar.js'
 import ParticleSystem from '../engine/particleSystem.js'
 
+
+
 import {RunImages} from '../engine/resources.js'
 class Player extends GameObject
 {
@@ -59,6 +61,7 @@ class Player extends GameObject
         const renderer = this.getComponent(Renderer);
         
         var moveCheck = false;
+
         physics.velocity.x = 0;
         physics.velocity.y = 0;
         if(input.isKeyDown("ArrowRight"))
@@ -97,6 +100,18 @@ class Player extends GameObject
             this.animator.setAnimation("idle");
         }
         
+//        if(moveCheck==true)
+//        {
+//            if (this.x<this.game.canvas.width/3)
+//            {
+//                this.x=this.game.canvas.width/3;
+//            }
+//            else if (this.x>this.game.canvas.width-this.canvas.width/3)
+//            {
+//                this.x-this.game.canvas.width-this.canvas.width/3;
+//            }
+//        }
+        
         if(input.isKeyDown("Space"))
         {
             if(this.canFire)
@@ -111,28 +126,30 @@ class Player extends GameObject
                 setTimeout(()=>{this.canFire = true;}, 500);
             }
         }
-        //if(input.isKeyDown("ArrowUp") && this.isOnPlatform)
-        //{
-        //    this.startJump();
-        //}
-       
-        if(this.isJumping)
+        
+        
+        
+        if(input.isKeyDown("ShiftLeft"))
         {
-            this.updateJump(deltaTime);
+            this.speed =300;
         }
+        else
+        {
+            this.speed=this.defaultSpeed;
+        }
+
+        
+       
+        
         const platforms = this.game.gameObjects.filter((obj) => obj instanceof Platform);
         for(const platform of platforms)
         {
           
             if(physics.isColliding(platform.getComponent(Physics)))
             {
-                if (!this.isJumping) 
-                {
-                    physics.acceleration.y = 0;
-                    physics.velocity.y = 0;
-                    this.y = platform.y - this.getComponent(Renderer).height;
-                    this.isOnPlatform = true;
-                }
+     //               physics.acceleration.x = 0;
+   //                 physics.velocity.x = 0;
+ //                   this.x = platform.x - this.getComponent(Renderer).width;
             }
             
         }
@@ -156,10 +173,18 @@ class Player extends GameObject
                 this.collectStar(coll);
             }
         }
-        if(this.y > this.game.canvas.height)
+        if(this.y > this.game.canvas.height-50)
         {
-            this.x = this.startPoint.x;
-            this.y = this.startPoint.y;
+            this.y = this.game.canvas.height-50;
+        }
+        
+        if(this.x > this.game.canvas.width*(2/3)-40)
+        {
+            this.x = this.game.canvas.width*(2/3)-40;
+        }
+        if(this.x < this.game.canvas.width/3-10)
+        {
+            this.x = this.game.canvas.width/3-10;
         }
         
         
@@ -171,8 +196,7 @@ class Player extends GameObject
     {
         if(!this.inVulnreable)
         {
-            this.lives --;
-            this.healthBar.currentValue = this.lives;
+            hit();
             console.log(this.lives);
           //  this.x = this.startPoint.x;
           //  this.y = this.startPoint.y;
@@ -180,12 +204,12 @@ class Player extends GameObject
             setTimeout(()=>{this.inVulnreable = false;}, 2000);
         }
     }
+    
     collectStar(collectible)
     {
         this.game.removeGameObject(collectible);
         this.emitParticles(collectible);
         this.score++;
-        this.speed *= 2;
        
     }
     
@@ -199,25 +223,6 @@ class Player extends GameObject
 
     }
     
-    startJump()
-    {
-        if(this.isOnPlatform)
-        {
-            this.isJumping = true;
-            this.jumpTimer = this.jumpTime;
-            this.getComponent(Physics).velocity.y = -this.jumpForce;
-            this.isOnPlatform = false;
-        }
-    }
-    
-    updateJump(deltaTime)
-    {
-        this.jumpTimer -= deltaTime;
-        if(this.jumpTimer <=0 || this.getComponent(Physics).velocity.y > 0)
-        {
-            this.isJumping = false;
-        }
-    }
     
     hit()
     {
@@ -227,8 +232,9 @@ class Player extends GameObject
         {
              //END GAME
              this.game.stopped=true;
+             this.game.welcomeScreen.start(); 
              this.game.delAll();
-             this.game.welcomeScreen.start();
+             
         }
     }
 }
