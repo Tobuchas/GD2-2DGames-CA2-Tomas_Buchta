@@ -20,7 +20,7 @@ class Level extends Game
         
         this.welcomeScreen=welcomeScreen;
         
-        let healthBar = new HealthBar(this.canvas.width-500, 10, 140, 10);
+        let healthBar = new HealthBar(this.canvas.width/2-100, this.canvas.height-20, 200, 20);
         
         const player = new Player(600, this.canvas.height - 100,50, 50, healthBar);
         

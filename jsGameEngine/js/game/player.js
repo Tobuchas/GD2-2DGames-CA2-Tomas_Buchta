@@ -231,9 +231,10 @@ class Player extends GameObject
         if(this.lives === 0)
         {
              //END GAME
-             this.game.stopped=true;
-             this.game.welcomeScreen.start(); 
-             this.game.delAll();
+            this.game.stopped=true;
+            this.game.delAll();
+            this.game.welcomeScreen.start(); 
+
              
         }
     }

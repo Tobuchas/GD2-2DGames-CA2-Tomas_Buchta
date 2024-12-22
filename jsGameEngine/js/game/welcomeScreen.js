@@ -10,9 +10,13 @@ class WelcomeScreen extends Game
     
     constructor(canvasId) {
     super(canvasId);
-    let startBtn = new Button(100,100,100,40, 'green', "Start");
+    let startBtn = new Button(this.canvas.width/2-50,500,100,40, 'green', "Start");
         this.addGameObject(startBtn);
-        this.camera.target = startBtn; 
+        this.camera.target = startBtn;
+    let info = new Button(this.canvas.width/2-200,300,400,80, 'purple', "WASD, Shift for faster movment, Space to shoot");
+        this.addGameObject(info);
+    let title = new Button(this.canvas.width/2-100,100,200,80, 'red', "Snowdown showdown");
+        this.addGameObject(title);
    }
 }
 
